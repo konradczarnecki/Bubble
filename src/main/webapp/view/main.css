@@ -1,0 +1,45 @@
+@font-face {
+    font-family: "CG";
+    src: url(font.ttf) format("truetype");
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background: #111111;
+    font-family: "CG";
+    color: #696e75;
+}
+
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    /*grid-template-rows: ;*/
+    min-height: 100%;
+}
+
+.sidebar {
+    display: grid;
+    grid-template-rows: 160px 1fr 20px;
+    background-color: #161616;
+}
+
+.menu {
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: 25% 25% 1fr;
+    padding: 20px;
+    text-align: right;
+}
+
+.bottom-bar{
+    grid-row: 3;
+    background-color: #1e1e1e;
+}
+
+h2 {
+    align-self: center;
+}
+
+
