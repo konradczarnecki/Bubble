@@ -20,23 +20,14 @@ public class DAO {
 
     public User getUser(String username){
 
-        Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-        Query q = session.createQuery("from User where username=:name");
+        Query q = factory.getCurrentSession().createQuery("from User where username=:name");
         q.setParameter("name", username);
 
-        User user = (User) q.uniqueResult();
-        tx.commit();
-
-        return user;
+        return (User) q.uniqueResult();
     }
 
     public void addUser(User user){
 
-        Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.save(user);
-        tx.commit();
-        session.close();
+        factory.getCurrentSession().save(user);
     }
 }

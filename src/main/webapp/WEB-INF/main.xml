@@ -2,42 +2,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <import resource="beans.xml"/>
     <context:component-scan base-package="konra"/>
     <context:property-placeholder location="WEB-INF/db.properties"/>
+    <mvc:annotation-driven/>
     <tx:annotation-driven/>
 
-    <mvc:cors>
-        <mvc:mapping path="/**" />
-    </mvc:cors>
+    <mvc:resources mapping="view/**" location="/view/"/>
 
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <jdbc:embedded-database id="bubble" type="H2">
+        <jdbc:script location="classpath:db_scripts/create_tables.sql" />
+        <jdbc:script location="classpath:db_scripts/insert_data.sql" />
+    </jdbc:embedded-database>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${db.driver}"/>
         <property name="url" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <!--<property name="configLocation" value="WEB-INF/hibernate.cfg.xml"/>-->
         <property name="dataSource" ref="dataSource"/>
-
         <property name="packagesToScan" value="konra"/>
-
-        <!--<property name="configLocation" value="classpath*:hibernate.cfg.xml"/>-->
         <property name="hibernateProperties">
-            <value>
-                hibernate.dialect=org.hibernate.dialect.HSQLDialect
-            </value>
+            <value>hibernate.dialect=org.hibernate.dialect.HSQLDialect</value>
         </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <mvc:interceptors>
@@ -48,6 +47,5 @@
             <bean class="konra.login.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-
 
 </beans>

@@ -20,8 +20,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "balance_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Balance balance;
 
     public User(){}

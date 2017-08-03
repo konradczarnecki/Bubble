@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by konra on 22.07.2017.
  */
-@CrossOrigin(origins = "http://localhost:3000", methods = RequestMethod.POST)
 @Controller
 public class LoginController {
 
@@ -42,16 +41,16 @@ public class LoginController {
         return new ResponseEntity<>(gson.toJson(loginResponse), HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS})
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> login(@RequestBody String body, HttpServletResponse rsp, HttpServletRequest request){
+    public ResponseEntity<String> login(@RequestParam(value = "username") String username,
+                                        @RequestParam(value = "password") String password,
+                                        HttpServletRequest request){
 
-        User logged = gson.fromJson(body, User.class);
-        User user  = service.getUser(logged.getUsername());
+        User user  = service.getUser(username);
 
         LoginResponse loginResponse = new LoginResponse();
 
-        if(user != null && user.getPassword().equals(logged.getPassword())){
+        if(user != null && user.getPassword().equals(password)){
             loginResponse.setStatus("success");
             loginResponse.setToken("dupa");
 
@@ -60,17 +59,14 @@ public class LoginController {
             loginResponse.setStatus("failed");
         }
 
-        rsp.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        rsp.setHeader("Access-Control-Allow-Methods", "POST");
-        rsp.setHeader("Access-Control-Allow-Headers", "Authorization");
-
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:3000");
-        headers.add("Access-Control-Allow-Methods", "POST");
-        headers.add("Access-Control-Allow-Headers", "Authorization");
-
-        ResponseEntity response = new ResponseEntity<>(gson.toJson(loginResponse),headers, HttpStatus.OK);
+        ResponseEntity response = new ResponseEntity<>(gson.toJson(loginResponse), HttpStatus.OK);
 
         return response;
+    }
+
+    @RequestMapping(value = "/login_page")
+    public String logPage(){
+
+        return "view/login.html";
     }
 }

@@ -4,6 +4,8 @@ import konra.common.DAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class LoginService {
 
@@ -14,10 +16,12 @@ public class LoginService {
         this.dao = dao;
     }
 
+    @Transactional
     public User getUser(String username){
         return dao.getUser(username);
     }
 
+    @Transactional
     public void newUser(String username, String password, String email){
 
         User user = new User(username, password, email);

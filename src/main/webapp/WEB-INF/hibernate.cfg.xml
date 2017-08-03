@@ -1,32 +1,21 @@
-<!--<?xml version='1.0' encoding='utf-8'?>-->
-<!--<!DOCTYPE hibernate-configuration PUBLIC-->
-        <!--"-//Hibernate/Hibernate Configuration DTD//EN"-->
-        <!--"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">-->
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
-<!--<hibernate-configuration>-->
+<hibernate-configuration>
 
-    <!--&lt;!&ndash; a SessionFactory instance listed as /jndi/name &ndash;&gt;-->
-    <!--<session-factory-->
-            <!--name="java:hibernate/SessionFactory">-->
+    <!-- a SessionFactory instance listed as /jndi/name -->
+    <session-factory>
 
-        <!--&lt;!&ndash; properties &ndash;&gt;-->
-        <!--<property name="connection.datasource">dataSource</property>-->
-        <!--<property name="dialect">org.hibernate.dialect.MySQLDialect</property>-->
-        <!--<property name="show_sql">false</property>-->
-        <!--<property name="transaction.factory_class">-->
-            <!--org.hibernate.transaction.JTATransactionFactory-->
-        <!--</property>-->
-        <!--<property name="jta.UserTransaction">java:comp/UserTransaction</property>-->
+        <!-- properties -->
+        <property name="connection.datasource">dataSource</property>
 
-        <!--&lt;!&ndash; mapping files &ndash;&gt;-->
-        <!--<mapping resource="org/hibernate/auction/Item.hbm.xml"/>-->
-        <!--<mapping resource="org/hibernate/auction/Bid.hbm.xml"/>-->
+        <!-- cache settings -->
+        <class-cache class="org.hibernate.auction.Item" usage="read-write"/>
+        <class-cache class="org.hibernate.auction.Bid" usage="read-only"/>
+        <collection-cache collection="org.hibernate.auction.Item.bids" usage="read-write"/>
 
-        <!--&lt;!&ndash; cache settings &ndash;&gt;-->
-        <!--<class-cache class="org.hibernate.auction.Item" usage="read-write"/>-->
-        <!--<class-cache class="org.hibernate.auction.Bid" usage="read-only"/>-->
-        <!--<collection-cache collection="org.hibernate.auction.Item.bids" usage="read-write"/>-->
+    </session-factory>
 
-    <!--</session-factory>-->
-
-<!--</hibernate-configuration>-->
+</hibernate-configuration>
