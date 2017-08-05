@@ -64,7 +64,7 @@ public class LoginController {
         return response;
     }
 
-    @RequestMapping(value = "/login_page")
+    @RequestMapping(value = {"/login_page", "/"})
     public String logPage(){
 
         return "view/login.html";

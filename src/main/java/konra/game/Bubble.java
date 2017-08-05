@@ -1,6 +1,7 @@
 package konra.game;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Bubble {
@@ -12,8 +13,8 @@ public class Bubble {
     private int lifespan;
     private double multiplier;
     private long expires;
-    private double x;
-    private double y;
+    private int x;
+    private int y;
     private double progress;
 
     private Map<Integer, Bet> bets;
@@ -23,18 +24,20 @@ public class Bubble {
         this.lifespan = lifespan;
         this.multiplier = multiplier;
         this.id = "bubble" + nextId++;
+        this.bets = new HashMap<>();
     }
 
     public static Bubble random(){
 
-        double size = 0.1 + Math.random() / 10;
+        //double size = 0.1 + Math.random() / 10;
+        double size = 1;
         int lifespan = 5 + (int) (Math.random()*55);
         double multiplier = 1 + Math.random()*4 + 6*(size * lifespan / 100);
         multiplier = Math.round(multiplier * 100) / 100;
 
         Bubble b = new Bubble(size, lifespan, multiplier);
-        b.x = Math.random();
-        b.y = Math.random();
+        b.x = 1 + (int) (Math.random()*10);
+        b.y = 1 + (int) (Math.random()*10);
 
         return b;
     }
@@ -65,19 +68,19 @@ public class Bubble {
         this.id = id;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 

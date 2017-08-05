@@ -5,20 +5,98 @@
     <title>Bubble</title>
     <link rel="stylesheet" href="main.css"/>
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 </head>
 <body>
 
-<div class="wrapper">
+<div class="wrapper" id="main-app">
     <div class="sidebar">
         <div class="menu">
-            <h2 id="username">konra</h2>
-            <h2 id="balance">1000</h2>
-            </div>
+            <menu-header v-bind:username="username" v-bind:balance="balance"></menu-header>
+        </div>
         <div class="bottom-bar">
         </div>
     </div>
+
+    <plane v-bind:bubbles="bubbles"></plane>
 </div>
+
+<script>
+
+    var menuText = Vue.component('menu-header', {
+
+        props : ['username', 'balance'],
+        template : `<div>
+            <h2 id="username">{{username}}</h2>
+            <h2 id="balance">{{balance}}</h2>
+            </div>`
+    });
+
+    var plane = Vue.component('plane', {
+
+        template : `
+            <div class="plane">
+
+            <bubble v-for="b in bubbles" :key="b.id" :posX="b.x" :posY="b.y"></bubble>
+            </div>`,
+
+        props: ['bubbles']
+//        created : function () {
+////            console.log('created');
+//
+//        },
+//        methods : {}
+    });
+
+    var bubble = Vue.component('bubble', {
+
+        props : ['posX', 'posY', 'lifespan'],
+        template : `
+            <div v-bind:style="{gridColumn : posX, gridRow : posY}" class="bubble">
+
+            </div>
+        `
+    });
+
+    var main_app = new Vue({
+
+        el : '#main-app',
+        data : {
+            username : 'aa',
+            balance : 990,
+            token : '',
+            bubbles : []
+        },
+        created : function () {
+          this.username = sessionStorage.getItem('username');
+          this.token = sessionStorage.getItem('token');
+
+          setInterval(this.update, 500);
+        },
+        methods : {
+            update : function () {
+
+                axios.request({
+                    url : 'http://localhost:8090/bubble/state',
+                    method : 'get',
+                    headers : {
+                        'token' : this.token
+                    }
+                }).then(response => {
+
+                     this. bubbles = response.data.bubbles;
+                     this.balance = response.data.balance;
+
+                }).catch(response => {
+                    console.log(response);
+                })
+            }
+        },
+    });
+
+</script>
 
 </body>
 </html>

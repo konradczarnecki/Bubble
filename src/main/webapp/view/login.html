@@ -43,6 +43,7 @@
 
                     if(response.data.status == 'success'){
                         sessionStorage.setItem('token', response.data.token);
+                        sessionStorage.setItem('username', this.username);
                         window.location.href = 'view/main.html';
                     }
                 })

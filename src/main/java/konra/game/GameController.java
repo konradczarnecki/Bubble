@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 public class GameController {
 
-    BubbleService game;
-    LoginService service;
-    Gson gson;
-    Logger log;
-    Environment env;
+    private BubbleService game;
+    private LoginService service;
+    private Gson gson;
+    private Logger log;
+    private Environment env;
 
     @Autowired
     public GameController(BubbleService game, Environment env, LoginService service){
@@ -37,7 +36,6 @@ public class GameController {
         log = Logger.getLogger(GameController.class);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @RequestMapping(value = "/state", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> getState(HttpServletRequest request){
 
@@ -52,7 +50,6 @@ public class GameController {
 
         String json = gson.toJson(response);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:3000");
 
         return new ResponseEntity<>(json, headers, HttpStatus.OK);
     }
