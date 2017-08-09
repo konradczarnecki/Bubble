@@ -29,7 +29,6 @@ public class Bubble {
 
     public static Bubble random(){
 
-        //double size = 0.1 + Math.random() / 10;
         double size = 1;
         int lifespan = 5 + (int) (Math.random()*55);
         double multiplier = 1 + Math.random()*4 + 6*(size * lifespan / 100);
@@ -43,11 +42,10 @@ public class Bubble {
     }
 
     public boolean overlaps(Bubble otherBubble){
-
-        double distance = Math.sqrt(Math.pow(Math.abs(this.x - otherBubble.x), 2)
-                + Math.pow(Math.abs(this.y - otherBubble.y), 2));
-
-        return distance < 1.3 * (this.size + otherBubble.size);
+        return ((this.x >= otherBubble.x && this.x < otherBubble.x + otherBubble.size &&
+                this.y >= otherBubble.y && this.y < otherBubble.y + otherBubble.size) ||
+                (otherBubble.x >= this.x && otherBubble.x < this.x + this.size &&
+                otherBubble.y >= this.y && otherBubble.y < this.y + this.size));
     }
 
     public void expire(){

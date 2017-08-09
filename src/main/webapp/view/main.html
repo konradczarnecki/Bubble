@@ -7,7 +7,6 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-
 </head>
 <body>
 
@@ -16,7 +15,7 @@
         <div class="menu">
             <menu-header v-bind:username="username" v-bind:balance="balance"></menu-header>
         </div>
-        <div class="bottom-bar">
+            <div class="bottom-bar">
         </div>
     </div>
 
@@ -25,47 +24,41 @@
 
 <script>
 
-    var menuText = Vue.component('menu-header', {
+    Vue.component('menu-header', {
 
         props : ['username', 'balance'],
-        template : `<div>
-            <h2 id="username">{{username}}</h2>
-            <h2 id="balance">{{balance}}</h2>
+        template : `
+            <div>
+                <h2 id="username">{{username}}</h2>
+                <h2 id="balance">{{balance}}</h2>
             </div>`
     });
 
-    var plane = Vue.component('plane', {
+    Vue.component('plane', {
 
+        props: ['bubbles'],
         template : `
             <div class="plane">
-
-            <bubble v-for="b in bubbles" :key="b.id" :posX="b.x" :posY="b.y"></bubble>
-            </div>`,
-
-        props: ['bubbles']
-//        created : function () {
-////            console.log('created');
-//
-//        },
-//        methods : {}
+                <bubble v-for="b in bubbles" :key="b.id" :posX="b.x" :posY="b.y"></bubble>
+            </div>`
     });
 
-    var bubble = Vue.component('bubble', {
+    Vue.component('bubble', {
 
         props : ['posX', 'posY', 'lifespan'],
         template : `
-            <div v-bind:style="{gridColumn : posX, gridRow : posY}" class="bubble">
 
-            </div>
-        `
+                <img src="circle.png" v-bind:style="{gridColumn : posX, gridRow : posY}" class="bubbleImage"/>
+
+                `
     });
 
-    var main_app = new Vue({
+    new Vue({
 
         el : '#main-app',
         data : {
-            username : 'aa',
-            balance : 990,
+            username : '',
+            balance : 0,
             token : '',
             bubbles : []
         },
@@ -97,6 +90,5 @@
     });
 
 </script>
-
 </body>
 </html>

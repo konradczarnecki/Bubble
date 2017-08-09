@@ -138,7 +138,7 @@
                             </goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>C:\Program Files\Tomcat 8.5\webapps</outputDirectory>
+                            <outputDirectory>C:\Program Files\Tomcat9\webapps</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}</directory>
