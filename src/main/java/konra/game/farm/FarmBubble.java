@@ -1,10 +1,12 @@
-package konra.game;
+package konra.game.farm;
+
+import konra.game.Bet;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Bubble {
+public class FarmBubble {
 
     static int nextId = 0;
 
@@ -19,7 +21,7 @@ public class Bubble {
 
     private Map<Integer, Bet> bets;
 
-    public Bubble(double size, int lifespan, double multiplier) {
+    public FarmBubble(double size, int lifespan, double multiplier) {
         this.size = size;
         this.lifespan = lifespan;
         this.multiplier = multiplier;
@@ -27,21 +29,21 @@ public class Bubble {
         this.bets = new HashMap<>();
     }
 
-    public static Bubble random(){
+    public static FarmBubble random(){
 
         double size = 1;
         int lifespan = 5 + (int) (Math.random()*55);
         double multiplier = 1 + Math.random()*4 + 6*(size * lifespan / 100);
         multiplier = Math.round(multiplier * 100) / 100;
 
-        Bubble b = new Bubble(size, lifespan, multiplier);
+        FarmBubble b = new FarmBubble(size, lifespan, multiplier);
         b.x = 1 + (int) (Math.random()*10);
         b.y = 1 + (int) (Math.random()*10);
 
         return b;
     }
 
-    public boolean overlaps(Bubble otherBubble){
+    public boolean overlaps(FarmBubble otherBubble){
         return ((this.x >= otherBubble.x && this.x < otherBubble.x + otherBubble.size &&
                 this.y >= otherBubble.y && this.y < otherBubble.y + otherBubble.size) ||
                 (otherBubble.x >= this.x && otherBubble.x < this.x + this.size &&

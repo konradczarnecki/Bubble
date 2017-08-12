@@ -1,5 +1,6 @@
-package konra.game;
+package konra.game.farm;
 
+import konra.game.Bet;
 import konra.login.Balance;
 import konra.login.User;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class BubbleService {
+public class BubbleFarm {
 
     private Map<Integer, Bet> bets;
-    volatile private Map<String, Bubble> bubbles;
+    volatile private Map<String, FarmBubble> bubbles;
     private ScheduledExecutorService scheduler;
 
     @PostConstruct
@@ -31,13 +32,13 @@ public class BubbleService {
 
             if(Math.random() < 0.5) return;
 
-            Bubble bubble;
+            FarmBubble bubble;
             boolean overlaps;
 
             do{
                 overlaps = false;
-                bubble = Bubble.random();
-                for(Bubble b: bubbles.values())
+                bubble = FarmBubble.random();
+                for(FarmBubble b: bubbles.values())
                     if(bubble.overlaps(b)) overlaps = true;
             }while(overlaps);
 
@@ -48,11 +49,11 @@ public class BubbleService {
         scheduler.scheduleAtFixedRate(newBubble, 5000, 7000, TimeUnit.MILLISECONDS);
     }
 
-    public List<Bubble> getBubbles(){
+    public List<FarmBubble> getBubbles(){
 
-        List<Bubble> activeBubbles = new ArrayList<>();
-        Map<String, Bubble> activeBubblesMap = new HashMap<>();
-        for(Bubble b: bubbles.values())
+        List<FarmBubble> activeBubbles = new ArrayList<>();
+        Map<String, FarmBubble> activeBubblesMap = new HashMap<>();
+        for(FarmBubble b: bubbles.values())
             if(b.getExpires() > System.currentTimeMillis()){
                 activeBubbles.add(b);
                 activeBubblesMap.put(b.getId(), b);
@@ -80,7 +81,7 @@ public class BubbleService {
     public boolean redeem(User user, String bubbleId){
 
         int reward = 0;
-        Bubble bubble = bubbles.get(bubbleId);
+        FarmBubble bubble = bubbles.get(bubbleId);
 
         for(Bet bet: bubble.getBets().values()){
 

@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="main.css"/>
     <meta charset="UTF-8">
     <title>Bubble</title>
-    <link rel="stylesheet" href="main.css"/>
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
 
-<div class="wrapper" id="main-app">
+<script src="move.min.js"></script>
+
+<div class="wrapper" id="app">
     <div class="sidebar">
         <div class="menu">
-            <menu-header v-bind:username="username" v-bind:balance="balance"></menu-header>
+            <menu-header :username="username" :balance="balance"></menu-header>
         </div>
-            <div class="bottom-bar">
+
+        <div class="viewChoice">
+            <router-link to="/game" id="gameLink">Game</router-link>
+            <router-link to="/farm" id="farmLink">Farm</router-link>
+        </div>
+
+        <div class="bottom-bar">
         </div>
     </div>
 
-    <plane v-bind:bubbles="bubbles"></plane>
+    <div class="mainView">
+        <router-view :token="token"></router-view>
+    </div>
 </div>
 
 <script>
@@ -34,14 +45,121 @@
             </div>`
     });
 
-    Vue.component('plane', {
+    const plane = Vue.component('plane', {
 
-        props: ['bubbles'],
+        props : ['token'],
+        data : function () {
+            return {
+                bubbles: []
+            }
+        },
+        created : function () {
+            setInterval(this.update, 500);
+        },
         template : `
             <div class="plane">
                 <bubble v-for="b in bubbles" :key="b.id" :posX="b.x" :posY="b.y"></bubble>
-            </div>`
+            </div>`,
+
+        methods : {
+            update : function () {
+
+                axios.request({
+                    url : 'http://localhost:8090/bubble/farmState',
+                    method : 'get',
+                    headers : {
+                        'token' : this.token
+                    }
+                }).then(response => {
+
+                    this.bubbles = response.data.bubbles;
+                    this.$emit('updateBalance', Number(response.data.balance));
+
+                }).catch(response => {
+                    console.log(response);
+                })
+            }
+        },
     });
+
+    const game = Vue.component('game', {
+
+        data : function () {
+            return {
+                bubble : {
+                    id : -1
+                }
+            }
+        },
+        props : ['token'],
+
+        template : `
+            <div class="game">
+                <div class="outline">
+                </div>
+                <bub class="mainBubble"/>
+
+            </div>`,
+        created : function () {
+            this.update();
+        },
+        methods : {
+            update : function () {
+                axios.request({
+                    url : 'http://localhost:8090/bubble/state',
+                    method : 'get',
+                    headers : {
+                        token : this.token
+                    }
+                }).then(response => {
+
+                    console.log('callback');
+                    newBubble = response.data;
+                    if(this.bubble.id != newBubble.id){
+                        this.bubble = newBubble;
+
+                        let style = document.createElement('style');
+                        style.type = 'text/css';
+                        let keyFrames = `
+                             @keyframes grow {
+                             0% {transform : scale(${this.bubble.progress/100});}
+                             100% {transform : scale(${this.bubble.max/100});}
+                                }`;
+                        style.innerHTML = keyFrames;
+                        document.getElementsByTagName('head')[0].appendChild(style);
+
+                        let end = this.bubble.stamp + 70 * this.bubble.max;
+                        let dur = end - Date.now();
+
+                        this.style = {
+                            animationName : 'grow',
+                            animationDuration : dur + 'ms'
+                        };
+
+
+                    } else {
+                        setTimeout(this.update, 100);
+                    }
+
+                })
+            }
+        }
+    });
+
+    Vue.component('bub', {
+       template : `
+            <div id="mainBubble" :style="stl"></div>
+            `,
+        props : ['stl'],
+
+    });
+
+    const routes = [
+        { path: '/farm', component: plane },
+        { path: '/game', component: game }
+    ];
+
+    const router = new VueRouter({routes});
 
     Vue.component('bubble', {
 
@@ -53,39 +171,25 @@
                 `
     });
 
+    Vue.component('main-bubble', {
+
+
+    });
+
+    var username, token;
+
     new Vue({
 
-        el : '#main-app',
+        el : '#app',
         data : {
             username : '',
             balance : 0,
             token : '',
-            bubbles : []
         },
+        router : router,
         created : function () {
           this.username = sessionStorage.getItem('username');
           this.token = sessionStorage.getItem('token');
-
-          setInterval(this.update, 500);
-        },
-        methods : {
-            update : function () {
-
-                axios.request({
-                    url : 'http://localhost:8090/bubble/state',
-                    method : 'get',
-                    headers : {
-                        'token' : this.token
-                    }
-                }).then(response => {
-
-                     this. bubbles = response.data.bubbles;
-                     this.balance = response.data.balance;
-
-                }).catch(response => {
-                    console.log(response);
-                })
-            }
         },
     });
 

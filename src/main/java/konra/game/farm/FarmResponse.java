@@ -1,22 +1,23 @@
-package konra.game;
+package konra.game.farm;
 
 import konra.common.GenericResponse;
+import konra.game.farm.FarmBubble;
 
 import java.util.List;
 
-public class StateResponse extends GenericResponse {
+public class FarmResponse extends GenericResponse {
 
-    private List<Bubble> bubbles;
+    private List<FarmBubble> bubbles;
     private int balance;
 
-    public StateResponse() {
+    public FarmResponse() {
     }
 
-    public List<Bubble> getBubbles() {
+    public List<FarmBubble> getBubbles() {
         return bubbles;
     }
 
-    public void setBubbles(List<Bubble> bubbles) {
+    public void setBubbles(List<FarmBubble> bubbles) {
         this.bubbles = bubbles;
     }
 
