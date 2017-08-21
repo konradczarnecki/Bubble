@@ -26,7 +26,7 @@ html, body {
 
 .sidebar {
     display: grid;
-    grid-template-rows: 160px 50px 1fr 20px;
+    grid-template-rows: 160px 50px 1fr;
     background-color: #161616;
     opacity: 0.95;
 }
@@ -62,12 +62,7 @@ a {
     grid-column: 2;
 }
 
-.bottom-bar{
-    grid-row: 3;
-    background-color: #1e1e1e;
-}
-
-.plane {
+.farm {
     display: grid;
 
     grid-template-rows: 40% repeat(5, 1fr) 40%;

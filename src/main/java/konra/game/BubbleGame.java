@@ -20,7 +20,7 @@ public class BubbleGame {
 
     @PostConstruct
     public void init(){
-        this.scheduler = Executors.newScheduledThreadPool(1);
+        this.scheduler = Executors.newScheduledThreadPool(0);
         this.bets = new ArrayList<>();
         newBubble();
     }
@@ -53,7 +53,7 @@ public class BubbleGame {
         long interval = (long) (600 / this.bubble.getSpeed());
 
         scheduler.shutdownNow();
-        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler = Executors.newScheduledThreadPool(0);
         scheduler.scheduleAtFixedRate(this::update, 0, interval, TimeUnit.MILLISECONDS);
     }
 

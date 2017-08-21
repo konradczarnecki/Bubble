@@ -14,21 +14,16 @@ import java.util.List;
 public class GameController {
 
     private BubbleGame service;
-    private Gson gson;
 
     @Autowired
     public GameController(BubbleGame service) {
         this.service = service;
-        this.gson = new Gson();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/state", produces = "application/json")
-    public ResponseEntity<String> state(){
+    public MainBubble state(){
 
-        MainBubble bubble = service.getBubble();
-
-        return new ResponseEntity<>(gson.toJson(bubble), HttpStatus.OK);
+        return service.getBubble();
     }
-
-
 }

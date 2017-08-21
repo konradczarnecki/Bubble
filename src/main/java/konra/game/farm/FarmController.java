@@ -3,7 +3,7 @@ package konra.game.farm;
 import com.google.gson.Gson;
 import konra.common.GenericResponse;
 import konra.login.LoginService;
-import konra.login.User;
+import konra.common.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

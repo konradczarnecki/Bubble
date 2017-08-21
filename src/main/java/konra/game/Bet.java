@@ -1,6 +1,6 @@
 package konra.game;
 
-import konra.login.User;
+import konra.common.User;
 
 import java.util.Date;
 

@@ -7,6 +7,10 @@ public class GenericResponse {
     public GenericResponse() {
     }
 
+    public GenericResponse(String status){
+        this.status = status;
+    }
+
     public String getStatus() {
         return status;
     }

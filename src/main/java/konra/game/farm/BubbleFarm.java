@@ -1,8 +1,8 @@
 package konra.game.farm;
 
 import konra.game.Bet;
-import konra.login.Balance;
-import konra.login.User;
+import konra.common.Balance;
+import konra.common.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

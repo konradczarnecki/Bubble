@@ -1,4 +1,6 @@
-package konra.login;
+package konra.common;
+
+import konra.common.Balance;
 
 import javax.persistence.*;
 

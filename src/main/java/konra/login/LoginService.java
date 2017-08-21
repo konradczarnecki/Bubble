@@ -1,6 +1,8 @@
 package konra.login;
 
+import konra.common.Balance;
 import konra.common.DAO;
+import konra.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,25 @@ public class LoginService {
     }
 
     @Transactional
-    public User getUser(String username){
-        return dao.getUser(username);
+    public boolean authenticateUser(User loggedUser){
+
+        User usr = dao.getUser(loggedUser.getUsername());
+        return usr.getPassword().equals(loggedUser.getPassword());
     }
 
     @Transactional
     public void newUser(String username, String password, String email){
 
         User user = new User(username, password, email);
+        Balance balance = new Balance();
+        balance.setValue(1000);
+        user.setBalance(balance);
+        dao.addUser(user);
+    }
+
+    @Transactional
+    public void newUser(User user){
+
         Balance balance = new Balance();
         balance.setValue(1000);
         user.setBalance(balance);

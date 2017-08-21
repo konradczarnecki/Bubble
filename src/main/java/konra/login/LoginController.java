@@ -1,72 +1,54 @@
 package konra.login;
 
-import com.google.gson.Gson;
+import konra.common.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by konra on 22.07.2017.
- */
 @Controller
 public class LoginController {
 
-    private final Gson gson;
     private final LoginService service;
 
     @Autowired
     public LoginController(LoginService service) {
         this.service = service;
-        gson = new Gson();
     }
 
+    @ResponseBody
     @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> register(@RequestParam(value = "username") String username,
-                                   @RequestParam(value = "password") String password,
-                                   @RequestParam(value = "email") String email){
+    public LoginResponse register(@ModelAttribute User user){
 
-
-        service.newUser(username, password, email);
-
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setStatus("success");
-
-        return new ResponseEntity<>(gson.toJson(loginResponse), HttpStatus.OK);
+        service.newUser(user);
+        return new LoginResponse("success");
     }
 
+    @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> login(@RequestParam(value = "username") String username,
-                                        @RequestParam(value = "password") String password,
-                                        HttpServletRequest request){
+    public LoginResponse login(@ModelAttribute User user, HttpServletRequest request){
 
-        User user  = service.getUser(username);
+        boolean authenticated = service.authenticateUser(user);
 
-        LoginResponse loginResponse = new LoginResponse();
-
-        if(user != null && user.getPassword().equals(password)){
-            loginResponse.setStatus("success");
-            loginResponse.setToken("dupa");
+        LoginResponse rsp = new LoginResponse();
+        if(authenticated){
+            rsp.setStatus("success");
+            rsp.setToken("dupa");
 
             request.getSession(true).setAttribute("user", user);
         } else {
-            loginResponse.setStatus("failed");
+            rsp.setStatus("failed");
         }
 
-        ResponseEntity response = new ResponseEntity<>(gson.toJson(loginResponse), HttpStatus.OK);
-
-        return response;
+        return rsp;
     }
 
     @RequestMapping(value = {"/login_page", "/"})
-    public String logPage(){
+    public void logPage(HttpServletResponse response){
 
-        return "view/login.html";
+        response.setStatus(301);
+        response.setHeader("Location", "http://localhost:8090/view/login.html");
     }
 }

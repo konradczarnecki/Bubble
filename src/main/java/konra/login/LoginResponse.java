@@ -12,6 +12,10 @@ public class LoginResponse extends GenericResponse {
     public LoginResponse() {
     }
 
+    public LoginResponse(String status){
+        super(status);
+    }
+
     public String getToken() {
         return token;
     }

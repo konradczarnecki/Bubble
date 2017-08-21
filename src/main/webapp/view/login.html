@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Bubble</title>
-    <link rel="stylesheet" href="view/login.css"/>
+    <link rel="stylesheet" href="login.css"/>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -12,9 +12,9 @@
 
 <div class="wrapper" id="login-app">
     <div class="frame">
-        <input v-model="username" id="usr" name="username"/>
-        <input v-model="password" id="pwd" name="password"/>
-        <button id="sbt" v-on:click="onSubmit">LOG IN</button>
+        <input v-model="username" id="usr"/>
+        <input v-model="password" id="pwd"/>
+        <button id="sbt" @click="onSubmit">LOG IN</button>
     </div>
 
     <div class="right-column"><h2 class="register">register</h2></div>
@@ -22,19 +22,21 @@
 
 <script>
 
-    var host = 'http://localhost:8090';
-
     new Vue({
+
         el : '#login-app',
+
         data : {
             username : '',
             password : ''
         },
+
         methods : {
+
             onSubmit : function (e) {
 
                 axios.request({
-                    url : 'login',
+                    url : '/login',
                     method : 'post',
                     params : {
                         'username' : this.username,
@@ -45,7 +47,7 @@
                     if(response.data.status == 'success'){
                         sessionStorage.setItem('token', response.data.token);
                         sessionStorage.setItem('username', this.username);
-                        window.location.href = 'view/main.html';
+                        window.location.href = '/view/main.html';
                     }
                 })
             }
