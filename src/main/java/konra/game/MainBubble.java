@@ -11,12 +11,11 @@ public class MainBubble {
     private int max;
     private int multiplier;
     private double speed;
-    private long stamp;
+    private long expires;
 
     public MainBubble() {
         this.id = NEXT_ID++;
         this.progress = 0;
-        this.stamp = new Date().getTime();
     }
 
     public void incrementProgress(){
@@ -29,6 +28,7 @@ public class MainBubble {
         bubble.max = (int) (Math.random()*100);
         bubble.multiplier = 2 + (int) (Math.random()*5);
         bubble.speed = 1;
+        bubble.expires = new Date().getTime() + 600 * bubble.max;
         return bubble;
     }
 
@@ -72,12 +72,12 @@ public class MainBubble {
         this.speed = speed;
     }
 
-    public long getStamp() {
-        return stamp;
+    public long getExpires() {
+        return expires;
     }
 
-    public void setStamp(long stamp) {
-        this.stamp = stamp;
+    public void setExpires(long expires) {
+        this.expires = expires;
     }
 
 }

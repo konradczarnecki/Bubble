@@ -4,7 +4,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,22 +14,20 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class BubbleGame {
 
-    private MainBubble bubble;
     private ScheduledExecutorService scheduler;
-
+    private MainBubble bubble;
     private List<Bet> bets;
 
-    public BubbleGame() {
+    @PostConstruct
+    public void init(){
         this.scheduler = Executors.newScheduledThreadPool(1);
         this.bets = new ArrayList<>();
         newBubble();
     }
 
-    @PostConstruct
-    public void init(){
-    }
-
     public void update(){
+
+        System.out.println(new Date().getTime() + " - " + bubble.getProgress());
 
         if(bubble.getProgress() < bubble.getMax())
             bubble.incrementProgress();
@@ -35,22 +35,26 @@ public class BubbleGame {
         else if (bubble.getProgress() == bubble.getMax()){
             this.bets = new ArrayList<>();
             bubble.incrementProgress();
+            newBubble();
         }
 
         else if (bubble.getProgress() < 100)
             bubble.incrementProgress();
 
 
-        if(bubble.getProgress() == 100){
+        if(bubble.getProgress() == 100)
             newBubble();
-        }
+
     }
 
     private void newBubble() {
 
         this.bubble = MainBubble.next();
-        long interval = (long) (70 / this.bubble.getSpeed());
-        scheduler.scheduleAtFixedRate(this::update, 0, 700, TimeUnit.MILLISECONDS);
+        long interval = (long) (600 / this.bubble.getSpeed());
+
+        scheduler.shutdownNow();
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(this::update, 0, interval, TimeUnit.MILLISECONDS);
     }
 
     public MainBubble getBubble() {
