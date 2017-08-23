@@ -12,6 +12,7 @@ public class Bet {
     private User user;
     private int amount;
     private long timestamp;
+    private int base;
     private boolean valid;
 
     public Bet(User user, int amount) {
@@ -20,6 +21,12 @@ public class Bet {
         this.id = nextId++;
         this.user = user;
         this.amount = amount;
+    }
+
+    public boolean equals(Object o){
+        if(!(o instanceof Bet)) return false;
+        Bet b = (Bet) o;
+        return b.id == this.id;
     }
 
     public int getId() {
@@ -60,5 +67,21 @@ public class Bet {
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public static int getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(int nextId) {
+        Bet.nextId = nextId;
+    }
+
+    public int getBase() {
+        return base;
+    }
+
+    public void setBase(int base) {
+        this.base = base;
     }
 }

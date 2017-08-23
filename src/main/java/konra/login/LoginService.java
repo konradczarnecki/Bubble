@@ -19,10 +19,11 @@ public class LoginService {
     }
 
     @Transactional
-    public boolean authenticateUser(User loggedUser){
+    public User authenticateUser(User loggedUser){
 
         User usr = dao.getUser(loggedUser.getUsername());
-        return usr.getPassword().equals(loggedUser.getPassword());
+        if(usr.getPassword().equals(loggedUser.getPassword())) return usr;
+        else return null;
     }
 
     @Transactional

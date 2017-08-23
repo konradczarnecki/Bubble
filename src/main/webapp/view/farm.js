@@ -21,7 +21,7 @@ const farm = Vue.component('farm', {
         update : function () {
 
             axios.request({
-                url : '/farmState',
+                url : '/farmstate',
                 method : 'get',
                 headers : {
                     'token' : sessionStorage.getItem('token')
@@ -38,7 +38,7 @@ const farm = Vue.component('farm', {
 Vue.component('bubble', {
 
     template : `
-            <img src="circle.png" class="bubbleImage" :style="{gridColumn : posX, gridRow : posY}"/>`,
+            <div style="border-radius: 100%" class="bubbleImage" :style="{gridColumn : posX, gridRow : posY}"/>`,
 
     props : ['posX', 'posY'],
 });

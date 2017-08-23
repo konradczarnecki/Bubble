@@ -10,7 +10,8 @@ const game = Vue.component('game', {
 
     data : function () {
         return {
-            bubble : {}
+            bubble : {},
+            balance : Number(sessionStorage.getItem('balance')),
         }
     },
 
@@ -22,14 +23,14 @@ const game = Vue.component('game', {
 
         update : function () {
             axios.request({
-                url : '/state',
+                url : '/gamestate',
                 method : 'get',
                 headers : {
                     token : sessionStorage.getItem('token')
                 }
             }).then(response => {
 
-                let newBubble = response.data;
+                let newBubble = response.data.bubble;
                 console.log(newBubble);
 
                 if(newBubble.id != this.bubble.id) this.bubble = newBubble;
@@ -39,19 +40,23 @@ const game = Vue.component('game', {
     }
 });
 
-const mainBubble = Vue.component('main-bubble', {
+Vue.component('main-bubble', {
 
-    template : `
-                <div id="mainBubble"></div>
-            `,
+    template : `<div v-show="visible" id="mainBubble"></div>`,
 
     props : ['size', 'max', 'expires'],
+
+    data : function () {
+        return {
+            visible : true
+        }},
 
     mounted : function () {
 
         let start = this.size / 100;
         let end = this.max / 100;
         let duration = this.expires - Date.now();
+        this.visible = true;
 
         anime({
             targets : '#mainBubble',
@@ -59,6 +64,7 @@ const mainBubble = Vue.component('main-bubble', {
             duration : duration,
             easing : 'linear',
             complete: () => {
+                this.visible = false;
                 this.$emit('update');
             }
         })

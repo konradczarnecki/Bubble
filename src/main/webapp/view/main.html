@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="anime.js"></script>
 </head>
 
@@ -18,14 +19,13 @@
 
         <div class="sidebar">
 
-            <menu-header :username="username" :balance="balance"></menu-header>
+            <menu-header :username="username" :balance="balance" :profilepic="profileImg"></menu-header>
 
-            <div class="viewChoice">
-                <router-link to="/game" id="gameLink">Game</router-link>
-                <router-link to="/farm" id="farmLink">Farm</router-link>
-            </div>
+            <router-link to="/game" id="gameLink">Game</router-link>
+            <router-link to="/farm" id="farmLink">Farm</router-link>
 
         </div>
+        <div class="underbar"></div>
 
         <div class="mainView">
             <router-view></router-view>
@@ -36,16 +36,51 @@
 <script src="game.js"></script>
 <script>
 
-    const menuHeader = Vue.component('menu-header', {
+    let bindSidebar = function () {
+
+        let doNothing = function () {};
+
+        let setPointerEvents = function (value) {
+            $('.underbar').css('pointer-events', value);
+            $('.sidebar').css('pointer-events', value);
+        };
+
+        let animateSidebar = function (action) {
+
+            let actionShow = action == 'show';
+            let from = actionShow ? -150 : 0;
+            let to = actionShow ? 0 : -150;
+
+            return function () {
+
+                setPointerEvents('none');
+                anime({
+                    targets : '.sidebar',
+                    translateX : [from, to],
+                    duration : 800,
+                    complete : function () {
+                        setPointerEvents('auto');
+                    }
+                })
+            };
+        };
+
+        $('.underbar').hover(animateSidebar('show'), doNothing);
+        $('.sidebar').hover(doNothing, animateSidebar('hide'));
+    };
+
+    Vue.component('menu-header', {
 
         template : `
             <div class="menu">
+                <img v-bind:src="profilepic" style="width: 100px; height: 100px; transform: translate(0px, 20px)"/>
                 <h2 id="username">{{username}}</h2>
                 <h2 id="balance">{{balance}}</h2>
             </div>`,
 
-        props : ['username', 'balance']
+        props : ['username', 'balance', 'profilepic']
     });
+
 
     const routes = [
         { path: '/farm', component: farm },
@@ -59,13 +94,26 @@
         el : '#app',
         data : {
             username : '',
-            balance : 0
+            balance : 0,
+            profileImg : ''
         },
 
         router : router,
 
         mounted : function () {
-          this.username = sessionStorage.getItem('username');
+            this.username = sessionStorage.getItem('username');
+            this.balance = sessionStorage.getItem('balance');
+            this.profileImg = sessionStorage.getItem('img');
+
+            anime({
+               targets : '.sidebar',
+                translateX : -150,
+                delay : 1000,
+                duration : 800,
+                easing : 'easeInOutBack'
+            });
+
+            bindSidebar();
         },
     });
 

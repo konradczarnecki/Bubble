@@ -6,19 +6,19 @@
     <link rel="stylesheet" href="login.css"/>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <script src="anime.js"></script>
 </head>
+
 <body>
 
-<div class="wrapper" id="login-app">
-    <div class="frame">
-        <input v-model="username" id="usr"/>
-        <input v-model="password" id="pwd"/>
-        <button id="sbt" @click="onSubmit">LOG IN</button>
+    <div class="wrapper" id="login-app">
+        <div class="frame">
+            <input v-model="username" id="usr" placeholder="username"/>
+            <input v-model="password" id="pwd" placeholder="password"/>
+            <div class="btn" id="login" @click="onSubmit">login</div>
+            <div class="btn" id="register">register</div>
+        </div>
     </div>
-
-    <div class="right-column"><h2 class="register">register</h2></div>
-</div>
 
 <script>
 
@@ -29,6 +29,16 @@
         data : {
             username : '',
             password : ''
+        },
+
+        mounted : function () {
+
+            anime({
+                targets : '.frame',
+                translateX : [-800, 0],
+                duration : 2000,
+                rotate : [-240, 0]
+            })
         },
 
         methods : {
@@ -45,9 +55,21 @@
                 }).then(response => {
 
                     if(response.data.status == 'success'){
+                        let user = response.data.user;
                         sessionStorage.setItem('token', response.data.token);
-                        sessionStorage.setItem('username', this.username);
-                        window.location.href = '/view/main.html';
+                        sessionStorage.setItem('username', user.username);
+                        sessionStorage.setItem('balance', user.balance.value);
+                        sessionStorage.setItem('img', user.profileImg);
+
+                        anime({
+                            targets : '.frame',
+                            translateY : 500,
+                            duration : 650,
+                            easing : 'easeInOutBack',
+                            complete : function () {
+                                window.location.href = '/view/main.html#/game';
+                            }
+                        });
                     }
                 })
             }

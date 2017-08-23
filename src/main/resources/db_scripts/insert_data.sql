@@ -1,2 +1,2 @@
-INSERT INTO login (username, pwd, email) VALUES ('konra', 'a', 'kk');
+INSERT INTO login (username, pwd, email, avatar) VALUES ('konra', 'a', 'kk', 'https://vignette3.wikia.nocookie.net/ssb/images/2/2b/Lol-face.gif/revision/latest?cb=20100823094728');
 INSERT INTO balance (amount) VALUES (1000);

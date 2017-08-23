@@ -30,12 +30,13 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     public LoginResponse login(@ModelAttribute User user, HttpServletRequest request){
 
-        boolean authenticated = service.authenticateUser(user);
+        User authenticated = service.authenticateUser(user);
 
         LoginResponse rsp = new LoginResponse();
-        if(authenticated){
+        if(authenticated != null){
             rsp.setStatus("success");
-            rsp.setToken("dupa");
+            rsp.setToken(LoginInterceptor.makeToken(user));
+            rsp.setUser(authenticated);
 
             request.getSession(true).setAttribute("user", user);
         } else {

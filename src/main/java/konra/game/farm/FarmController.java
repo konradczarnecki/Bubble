@@ -35,7 +35,7 @@ public class FarmController {
         log = Logger.getLogger(FarmController.class);
     }
 
-    @RequestMapping(value = "/farmState", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/farmstate", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> getState(HttpServletRequest request){
 
         User user = (User) request.getSession().getAttribute("user");

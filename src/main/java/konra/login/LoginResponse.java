@@ -1,6 +1,7 @@
 package konra.login;
 
 import konra.common.GenericResponse;
+import konra.common.User;
 
 /**
  * Created by konra on 22.07.2017.
@@ -8,6 +9,7 @@ import konra.common.GenericResponse;
 public class LoginResponse extends GenericResponse {
 
     private String token;
+    private User user;
 
     public LoginResponse() {
     }
@@ -22,5 +24,13 @@ public class LoginResponse extends GenericResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

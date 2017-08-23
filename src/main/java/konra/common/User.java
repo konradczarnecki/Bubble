@@ -1,6 +1,7 @@
 package konra.common;
 
 import konra.common.Balance;
+import konra.game.Bet;
 
 import javax.persistence.*;
 
@@ -22,6 +23,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "avatar")
+    private String profileImg;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Balance balance;
@@ -32,6 +36,12 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public boolean equals(Object o){
+        if(!(o instanceof User)) return false;
+        User b = (User) o;
+        return b.id == this.id;
     }
 
     public Balance getBalance() {
@@ -72,5 +82,13 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 }
