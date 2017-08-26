@@ -38,7 +38,7 @@ public class LoginController {
             rsp.setToken(LoginInterceptor.makeToken(user));
             rsp.setUser(authenticated);
 
-            request.getSession(true).setAttribute("user", user);
+            request.getSession(true).setAttribute("user", authenticated);
         } else {
             rsp.setStatus("failed");
         }

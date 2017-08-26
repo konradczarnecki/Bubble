@@ -1,11 +1,11 @@
 package konra.game;
 
 import konra.common.Balance;
-import konra.common.GenericResponse;
+import konra.common.Response;
 
 import java.util.List;
 
-public class StateResponse extends GenericResponse {
+public class StateResponse extends Response {
 
     private MainBubble bubble;
     private Balance balance;

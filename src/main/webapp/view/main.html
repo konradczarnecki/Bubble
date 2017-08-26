@@ -105,6 +105,10 @@
             this.balance = sessionStorage.getItem('balance');
             this.profileImg = sessionStorage.getItem('img');
 
+            eventBus.$on('updateBalance', balance => {
+                this.balance = balance;
+            });
+
             anime({
                targets : '.sidebar',
                 translateX : -150,

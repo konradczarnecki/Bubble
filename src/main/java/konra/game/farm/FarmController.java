@@ -1,7 +1,7 @@
 package konra.game.farm;
 
 import com.google.gson.Gson;
-import konra.common.GenericResponse;
+import konra.common.Response;
 import konra.login.LoginService;
 import konra.common.User;
 import org.apache.log4j.Logger;
@@ -53,8 +53,8 @@ public class FarmController {
         return new ResponseEntity<>(json, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/bet", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> makeBet(HttpServletRequest request,
+    @RequestMapping(value = "/farmbet", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> makeFarmBet(HttpServletRequest request,
                                           @RequestParam(name = "bubble_id") String bubbleId,
                                           @RequestParam(name = "amount") int amount){
 
@@ -62,7 +62,7 @@ public class FarmController {
 
         boolean betPlaced = game.makeBet(user, amount, bubbleId);
 
-        GenericResponse response = new GenericResponse();
+        Response response = new Response();
         String status = betPlaced ? "success" : "failed";
         response.setStatus(status);
 
@@ -71,21 +71,21 @@ public class FarmController {
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/redeem", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> redeem(HttpServletRequest request,
+    @RequestMapping(value = "/farmredeem", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> farmRedeem(HttpServletRequest request,
                                           @RequestParam(name = "bubble_id") String bubbleId){
 
-        User user = (User) request.getSession().getAttribute("user");
-
-        boolean result = game.redeem(user, bubbleId);
-
-        GenericResponse response = new GenericResponse();
-        if(result) response.setStatus("success");
-        else response.setStatus("failed");
-
-        String json = gson.toJson(response);
-
-        return new ResponseEntity<>(json, HttpStatus.OK);
+//        User user = (User) request.getSession().getAttribute("user");
+//
+//        boolean result = game.redeem(user, bubbleId);
+//
+//        Response response = new Response();
+//        if(result) response.setStatus("success");
+//        else response.setStatus("failed");
+//
+//        String json = gson.toJson(response);
+//
+        return new ResponseEntity<>("s", HttpStatus.OK);
     }
 
 }

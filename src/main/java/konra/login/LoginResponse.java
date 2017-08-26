@@ -1,12 +1,12 @@
 package konra.login;
 
-import konra.common.GenericResponse;
+import konra.common.Response;
 import konra.common.User;
 
 /**
  * Created by konra on 22.07.2017.
  */
-public class LoginResponse extends GenericResponse {
+public class LoginResponse extends Response {
 
     private String token;
     private User user;

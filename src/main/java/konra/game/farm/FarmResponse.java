@@ -1,11 +1,10 @@
 package konra.game.farm;
 
-import konra.common.GenericResponse;
-import konra.game.farm.FarmBubble;
+import konra.common.Response;
 
 import java.util.List;
 
-public class FarmResponse extends GenericResponse {
+public class FarmResponse extends Response {
 
     private List<FarmBubble> bubbles;
     private int balance;

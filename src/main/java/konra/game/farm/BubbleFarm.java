@@ -58,7 +58,7 @@ public class BubbleFarm {
                 activeBubbles.add(b);
                 activeBubblesMap.put(b.getId(), b);
             } else {
-                b.expire();
+
             }
 
         bubbles = activeBubblesMap;
@@ -78,27 +78,27 @@ public class BubbleFarm {
         return true;
     }
 
-    public boolean redeem(User user, String bubbleId){
-
-        int reward = 0;
-        FarmBubble bubble = bubbles.get(bubbleId);
-
-        for(Bet bet: bubble.getBets().values()){
-
-            if(bet.getUser().getId() == user.getId() && bet.isValid()){
-
-                double stMultiplier = bubble.getProgressFor(bet.getTimestamp()) * bubble.getMultiplier();
-                double enMultiplier = bubble.getProgress() * bubble.getMultiplier();
-
-                double m = enMultiplier / stMultiplier;
-
-                reward += bet.getAmount() * m;
-                bet.setValid(false);
-            }
-        }
-
-        user.getBalance().add(reward);
-
-        return reward > 0;
-    }
+//    public boolean redeem(User user, String bubbleId){
+//
+//        int reward = 0;
+//        FarmBubble bubble = bubbles.get(bubbleId);
+//
+//        for(Bet bet: bubble.getBets().values()){
+//
+//            if(bet.getUser().getId() == user.getId() && bet.isValid()){
+//
+//                double stMultiplier = bubble.getProgressFor(bet.getTimestamp()) * bubble.getMultiplier();
+//                double enMultiplier = bubble.getProgress() * bubble.getMultiplier();
+//
+//                double m = enMultiplier / stMultiplier;
+//
+//                reward += bet.getAmount() * m;
+//                bet.setValid(false);
+//            }
+//        }
+//
+//        user.getBalance().add(reward);
+//
+//        return reward > 0;
+//    }
 }

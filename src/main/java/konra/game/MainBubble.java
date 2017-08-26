@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class MainBubble {
 
-    private static int NEXT_ID;
+    private static int NEXT_ID = 0;
 
     private int id;
     private int progress;
     private int max;
-    private int multiplier;
+    private double multiplier;
     private double speed;
     private long expires;
 
@@ -56,11 +56,11 @@ public class MainBubble {
         this.max = max;
     }
 
-    public int getMultiplier() {
+    public double getMultiplier() {
         return multiplier;
     }
 
-    public void setMultiplier(int multiplier) {
+    public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
     }
 

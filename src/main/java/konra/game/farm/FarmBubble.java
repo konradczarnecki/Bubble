@@ -50,12 +50,6 @@ public class FarmBubble {
                 otherBubble.y >= this.y && otherBubble.y < this.y + this.size));
     }
 
-    public void expire(){
-        for(Bet b: bets.values()){
-            b.setValid(false);
-        }
-    }
-
     public void addBet(Bet bet){
         this.bets.put(bet.getId(), bet);
     }

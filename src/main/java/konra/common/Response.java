@@ -1,13 +1,14 @@
 package konra.common;
 
-public class GenericResponse {
+public class Response <E> {
 
     private String status;
+    private E item;
 
-    public GenericResponse() {
+    public Response() {
     }
 
-    public GenericResponse(String status){
+    public Response(String status){
         this.status = status;
     }
 
@@ -19,4 +20,11 @@ public class GenericResponse {
         this.status = status;
     }
 
+    public E getItem() {
+        return item;
+    }
+
+    public void setItem(E item) {
+        this.item = item;
+    }
 }

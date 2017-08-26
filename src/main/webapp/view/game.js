@@ -1,10 +1,11 @@
+const eventBus = new Vue({});
 
 const game = Vue.component('game', {
 
     template : `
             <div class="game">
-                <div class="outline"></div>
-                <main-bubble :key="bubble.id" :size="bubble.progress" :max="bubble.max"
+                <div class="outline" @click.left="bet" @contextmenu="redeem($event)"></div>
+                <main-bubble :id="bubble.id" :key="bubble.id" :size="bubble.progress" :max="bubble.max"
                               @update="update" :expires="bubble.expires"></main-bubble>
             </div>`,
 
@@ -12,11 +13,18 @@ const game = Vue.component('game', {
         return {
             bubble : {},
             balance : Number(sessionStorage.getItem('balance')),
+            prize : 0
         }
     },
 
     mounted : function () {
         this.update();
+    },
+    
+    watch : {
+      balance : function (newValue, oldValue) {
+          eventBus.$emit('updateBalance', newValue);
+      }  
     },
 
     methods : {
@@ -30,11 +38,62 @@ const game = Vue.component('game', {
                 }
             }).then(response => {
 
+                console.log(response.data);
+
+                this.balance = response.data.balance.value;
                 let newBubble = response.data.bubble;
-                console.log(newBubble);
 
                 if(newBubble.id != this.bubble.id) this.bubble = newBubble;
                 else setTimeout(this.update, 600);
+            })
+        },
+
+        bet : function () {
+
+            let wager = 100;
+
+            axios.request({
+                url : '/bet',
+                method : 'post',
+                params : {
+                    amount : wager
+                }
+            }).then(response => {
+                console.log(response);
+
+                if(response.data.status == 'success'){
+                    this.balance -= wager;
+                }
+            })
+        },
+
+        redeem : function (event) {
+
+            event.preventDefault();
+
+            axios.request({
+                url : '/redeem',
+                method : 'post',
+                headers : {
+                    token : sessionStorage.getItem('token')
+                },
+                params : {
+                    stamp : Date.now(),
+                    tkn : 'abc',
+                    balance : this.balance,
+                    bubble : this.bubble.id
+                }
+            }).then(response => {
+
+                console.log(response);
+
+                if(response.data.status == 'success'){
+                    let prize = this.balance - response.data.item;
+                    this.balance = response.data.item;
+                }
+
+            }).catch(error => {
+                console.log(error);
             })
         }
     }
@@ -44,7 +103,7 @@ Vue.component('main-bubble', {
 
     template : `<div v-show="visible" id="mainBubble"></div>`,
 
-    props : ['size', 'max', 'expires'],
+    props : ['id', 'size', 'max', 'expires'],
 
     data : function () {
         return {
