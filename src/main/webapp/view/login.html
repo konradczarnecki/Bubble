@@ -15,7 +15,7 @@
         <div class="frame">
             <input v-model="username" id="usr" placeholder="username"/>
             <input v-model="password" id="pwd" placeholder="password"/>
-            <div class="btn" id="login" @click="onSubmit">login</div>
+            <div class="btn" id="login" @click="onSubmit" @keyup.enter="onSubmit">login</div>
             <div class="btn" id="register">register</div>
         </div>
     </div>

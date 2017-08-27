@@ -10,6 +10,7 @@ public class MainBubble {
     private int progress;
     private int max;
     private double multiplier;
+    private double currentMulti;
     private double speed;
     private long expires;
 
@@ -20,6 +21,7 @@ public class MainBubble {
 
     public void incrementProgress(){
         this.progress++;
+
     }
 
     public static MainBubble next() {
@@ -80,4 +82,11 @@ public class MainBubble {
         this.expires = expires;
     }
 
+    public double getCurrentMulti() {
+        return currentMulti;
+    }
+
+    public void setCurrentMulti(double currentMulti) {
+        this.currentMulti = currentMulti;
+    }
 }

@@ -17,7 +17,7 @@
 
     <div class="wrapper" id="app">
 
-        <div class="sidebar">
+        <div class="sidebar all">
 
             <menu-header :username="username" :balance="balance" :profilepic="profileImg"></menu-header>
 
@@ -27,8 +27,9 @@
         </div>
         <div class="underbar"></div>
 
-        <div class="mainView">
+        <div class="mainView all">
             <router-view></router-view>
+            <h3 class="balanceLabel">{{balance}}</h3>
         </div>
     </div>
 
@@ -61,7 +62,13 @@
                     complete : function () {
                         setPointerEvents('auto');
                     }
-                })
+                });
+
+                anime({
+                    targets : '.balanceLabel',
+                    translateY : [-to, -from],
+                    duration : 800
+                });
             };
         };
 
@@ -92,6 +99,7 @@
     new Vue({
 
         el : '#app',
+
         data : {
             username : '',
             balance : 0,
@@ -105,6 +113,12 @@
             this.balance = sessionStorage.getItem('balance');
             this.profileImg = sessionStorage.getItem('img');
 
+            anime({
+                targets : '.all',
+                opacity : [0, 1],
+                duration : 3000
+            });
+
             eventBus.$on('updateBalance', balance => {
                 this.balance = balance;
             });
@@ -112,6 +126,14 @@
             anime({
                targets : '.sidebar',
                 translateX : -150,
+                delay : 1000,
+                duration : 800,
+                easing : 'easeInOutBack'
+            });
+
+            anime({
+                targets : '.balanceLabel',
+                translateY : [150, 0],
                 delay : 1000,
                 duration : 800,
                 easing : 'easeInOutBack'
