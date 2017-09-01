@@ -2,7 +2,7 @@ package konra.game;
 
 import java.util.Date;
 
-public class MainBubble {
+public class Bubble {
 
     private static int NEXT_ID = 0;
 
@@ -14,7 +14,7 @@ public class MainBubble {
     private double speed;
     private long expires;
 
-    public MainBubble() {
+    public Bubble() {
         this.id = NEXT_ID++;
         this.progress = 0;
     }
@@ -24,9 +24,9 @@ public class MainBubble {
 
     }
 
-    public static MainBubble next() {
+    public static Bubble next() {
 
-        MainBubble bubble = new MainBubble();
+        Bubble bubble = new Bubble();
         bubble.max = (int) (Math.random()*100);
         bubble.multiplier = 2 + (int) (Math.random()*5);
         bubble.speed = 1;

@@ -28,13 +28,14 @@
     display: grid;
     grid-column: 1;
     grid-row: 1;
-    grid-template-rows: 230px 40px 40px 1fr;
+    grid-template-rows: 30px 180px 40px 40px 40px 40px 1fr;
     grid-template-columns: 1fr;
     background-color: #282480;
     opacity: 0.95;
     align-items: stretch;
     justify-items: stretch;
     z-index: 2;
+    overflow: hidden;
 }
 
 .underbar {
@@ -43,27 +44,60 @@
     z-index: 1;
 }
 
-.menu {
+.filler {
     grid-row: 1;
+}
+
+.menu {
+    grid-row: 2;
     grid-column: 1;
     display: grid;
-    grid-template-rows: 120px 35px 50px;
-    color: #5d77b9;
+    grid-template-rows: 120px 60px;
+    color: rgba(93, 119, 185, 0.84);
     width: 100%;
     justify-items: center;
     align-items: center;
 }
 
-a {
-    text-decoration: none;
-    color: #5D77B9;
-    font-size: 30px;
-    text-align: center;
+.username {
+
 }
 
-h2 {
-    font-size: 25px;
+.menuLink {
+    color: rgba(85, 105, 170, 0.85);
+    font-size: 21px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    background-color: #282480;
+}
+
+.menuLink:hover {
+    transform: scale(1.03);
+    box-shadow: 1px 1px 2px 1px rgba(53, 53, 53, 0.46);
+    cursor: pointer;
+}
+
+.infoWrapper {
     font-weight: 500;
+    justify-self: stretch;
+    align-self: stretch;
+    border-left: none;
+    border-right: none;
+    /*border-top: solid 1px rgba(15, 19, 19, 0.3);*/
+    /*border-bottom: solid 1px rgba(15, 19, 19, 0.3);*/
+    padding-left: 13px;
+    padding-top: 2px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    font-size: 18px;
+}
+
+.username {
+    justify-self: baseline;
 }
 
 .mainView {
@@ -91,6 +125,7 @@ h2 {
     display: grid;
     grid-template-columns: 1fr 70vh 1fr;
     grid-template-rows: 1fr 70vh 1fr;
+    color: rgba(85, 105, 170, 0.85);
     align-items: stretch;
     justify-items: stretch;
 }

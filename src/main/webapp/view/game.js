@@ -35,8 +35,8 @@ const game = Vue.component('game', {
     },
     
     watch : {
-        balance : function (newValue, oldValue) {
-            eventBus.$emit('updateBalance', newValue);
+        balance : function (newVal, oldVal) {
+            eventBus.$emit('updateBalance', newVal);
         },
 
         prize : function (newVal, oldVal) {

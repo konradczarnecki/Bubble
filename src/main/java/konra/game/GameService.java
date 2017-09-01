@@ -21,7 +21,7 @@ public class GameService {
 
     private ScheduledExecutorService bubbleScheduler;
     private ScheduledFuture bubbleCallback;
-    private MainBubble bubble;
+    private Bubble bubble;
     private List<Bet> bets;
     private List<User> redeemed;
 
@@ -41,7 +41,7 @@ public class GameService {
 
     private void newBubble() {
 
-        this.bubble = MainBubble.next();
+        this.bubble = Bubble.next();
         this.bets = new ArrayList<>();
         this.redeemed = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class GameService {
             log.info("id: "  + bubble.getId() + " max: " + bubble.getMax() + " - " + bubble.getProgress());
     }
 
-    public MainBubble getBubble() {
+    public Bubble getBubble() {
         return bubble;
     }
 

@@ -18,11 +18,14 @@
     <div class="wrapper" id="app">
 
         <div class="sidebar all">
+            <div class="filler"></div>
 
             <menu-header :username="username" :balance="balance" :profilepic="profileImg"></menu-header>
 
-            <router-link to="/game" id="gameLink">Game</router-link>
-            <router-link to="/farm" id="farmLink">Farm</router-link>
+            <router-link tag="div" class="menuLink" to="/game" id="gameLink">Bubble</router-link>
+            <router-link tag="div" class="menuLink" to="/exchange" id="changeLink">Exchange</router-link>
+            <router-link tag="div" class="menuLink" to="/profile" id="profileLink">Profile</router-link>
+            <router-link tag="div" class="menuLink" to="/about" id="aboutLink">About</router-link>
 
         </div>
         <div class="underbar"></div>
@@ -33,8 +36,11 @@
         </div>
     </div>
 
-<script src="farm.js"></script>
 <script src="game.js"></script>
+<script src="exchange.js"></script>
+<script src="profile.js"></script>
+<script src="about.js"></script>
+
 <script>
 
     let bindSidebar = function () {
@@ -80,9 +86,10 @@
 
         template : `
             <div class="menu">
-                <img v-bind:src="profilepic" style="width: 100px; height: 100px; transform: translate(0px, 20px)"/>
-                <h2 id="username">{{username}}</h2>
-                <h2 id="balance">{{balance}}</h2>
+                <img src="https://vignette3.wikia.nocookie.net/ssb/images/2/2b/Lol-face.gif/revision/latest?cb=20100823094728" style="width: 100px; height: 100px"/>
+                <div class="infoWrapper">
+                    <p class="username">konra</p><p class="balance">1000</p>
+                </div>
             </div>`,
 
         props : ['username', 'balance', 'profilepic']
@@ -90,8 +97,10 @@
 
 
     const routes = [
-        { path: '/farm', component: farm },
-        { path: '/game', component: game }
+        { path: '/game', component: game},
+        { path: '/exchange', component: exchange},
+        { path: '/profile', component: profile},
+        { path: '/about', component: about}
     ];
 
     const router = new VueRouter({routes});
@@ -113,14 +122,14 @@
             this.balance = sessionStorage.getItem('balance');
             this.profileImg = sessionStorage.getItem('img');
 
+            eventBus.$on('updateBalance', balance => {
+                this.balance = balance;
+            });
+
             anime({
                 targets : '.all',
                 opacity : [0, 1],
                 duration : 3000
-            });
-
-            eventBus.$on('updateBalance', balance => {
-                this.balance = balance;
             });
 
             anime({

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StateResponse extends Response {
 
-    private MainBubble bubble;
+    private Bubble bubble;
     private Balance balance;
     private List<Bet> bets;
 
@@ -17,11 +17,11 @@ public class StateResponse extends Response {
         super(status);
     }
 
-    public MainBubble getBubble() {
+    public Bubble getBubble() {
         return bubble;
     }
 
-    public void setBubble(MainBubble bubble) {
+    public void setBubble(Bubble bubble) {
         this.bubble = bubble;
     }
 
