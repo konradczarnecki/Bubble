@@ -13,10 +13,10 @@
 
     <mvc:resources mapping="view/**" location="/view/"/>
 
-    <jdbc:embedded-database id="bubble" type="H2">
-        <jdbc:script location="classpath:db_scripts/create_tables.sql" />
-        <jdbc:script location="classpath:db_scripts/insert_data.sql" />
-    </jdbc:embedded-database>
+    <!--<jdbc:embedded-database id="bubble" type="H2">-->
+        <!--<jdbc:script location="classpath:db_scripts/create_tables.sql" />-->
+        <!--<jdbc:script location="classpath:db_scripts/insert_data.sql" />-->
+    <!--</jdbc:embedded-database>-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${db.driver}"/>

@@ -120,6 +120,9 @@ const game = Vue.component('game', {
             axios.request({
                 url : '/bet',
                 method : 'post',
+                headers : {
+                  token : sessionStorage.getItem('token')
+                },
                 params : {
                     amount : wager
                 }

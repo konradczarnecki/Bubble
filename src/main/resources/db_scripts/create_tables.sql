@@ -10,5 +10,16 @@ CREATE TABLE IF NOT EXISTS login (
 CREATE TABLE IF NOT EXISTS balance (
   id INT(11) NOT NULL AUTO_INCREMENT,
   amount INT(11) NULL DEFAULT NULL,
+  small_h INT(11),
+  med_h INT(11),
+  big_h INT(11),
   PRIMARY KEY (id),
   FOREIGN KEY (id) REFERENCES login(user_id));
+
+CREATE TABLE IF NOT EXISTS items (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  type VARCHAR(30),
+  name VARCHAR(30) NOT NULL,
+  price INT(11) NOT NULL,
+  descr TEXT,
+  PRIMARY KEY (id));

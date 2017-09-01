@@ -3,6 +3,10 @@
     src: url(font.ttf) format("truetype");
 }
 
+:root {
+    var-back: #354091;
+}
+
 .wrapper {
     min-height: 100%;
     width: 100%;
@@ -13,7 +17,7 @@
     background: #354091;
     font-family: "CG";
     font-size: 15px;
-    color: #5b4e8e;
+    /*color: #5b4e8e;*/
 
     display: grid;
     grid-template-columns: 150px 1fr;
@@ -28,7 +32,7 @@
     display: grid;
     grid-column: 1;
     grid-row: 1;
-    grid-template-rows: 30px 180px 40px 40px 40px 40px 1fr;
+    grid-template-rows: 15px 140px 40px 40px 40px 40px 1fr 70px 60px;
     grid-template-columns: 1fr;
     background-color: #282480;
     opacity: 0.95;
@@ -59,9 +63,6 @@
     align-items: center;
 }
 
-.username {
-
-}
 
 .menuLink {
     color: rgba(85, 105, 170, 0.85);
@@ -96,8 +97,30 @@
     font-size: 18px;
 }
 
+.label{
+    /*margin-left: 10px;*/
+    justify-self: stretch;
+    align-self: stretch;
+    text-align: center;
+    /*padding-left: 10px;*/
+    color: rgba(108, 135, 206, 0.8);
+}
+
+.profilePic {
+    grid-row: 2;
+    margin: auto;
+}
+
 .username {
-    justify-self: baseline;
+    font-size: 25px;
+    grid-row: 8;
+    align-self: flex-end;
+    justify-self: center;
+}
+
+.balance {
+    font-size: 42px;
+    grid-row: 9;
 }
 
 .mainView {

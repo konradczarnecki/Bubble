@@ -5,6 +5,7 @@
     <title>Bubble</title>
 
     <link rel="stylesheet" href="main.css"/>
+    <link rel="stylesheet" href="exchange.css"/>
 
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -18,14 +19,17 @@
     <div class="wrapper" id="app">
 
         <div class="sidebar all">
-            <div class="filler"></div>
+            <div class="filler" style="grid-row: 1"></div>
 
-            <menu-header :username="username" :balance="balance" :profilepic="profileImg"></menu-header>
+            <img class="profilePic" src="https://vignette3.wikia.nocookie.net/ssb/images/2/2b/Lol-face.gif/revision/latest?cb=20100823094728" style="width: 100px; height: 100px"/>
 
             <router-link tag="div" class="menuLink" to="/game" id="gameLink">Bubble</router-link>
             <router-link tag="div" class="menuLink" to="/exchange" id="changeLink">Exchange</router-link>
             <router-link tag="div" class="menuLink" to="/profile" id="profileLink">Profile</router-link>
             <router-link tag="div" class="menuLink" to="/about" id="aboutLink">About</router-link>
+
+            <div class="username label">konra</div>
+            <div class="balance label">1000</div>
 
         </div>
         <div class="underbar"></div>
@@ -86,10 +90,7 @@
 
         template : `
             <div class="menu">
-                <img src="https://vignette3.wikia.nocookie.net/ssb/images/2/2b/Lol-face.gif/revision/latest?cb=20100823094728" style="width: 100px; height: 100px"/>
-                <div class="infoWrapper">
-                    <p class="username">konra</p><p class="balance">1000</p>
-                </div>
+
             </div>`,
 
         props : ['username', 'balance', 'profilepic']
